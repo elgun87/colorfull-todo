@@ -49,9 +49,23 @@ var todoProject = {
     addTodo: function(){
         let newArray = this.checkLocal();
         let todoInputValue = todoInput.value.trim();
-        todoInput.value = '';
-        newArray.push(todoInputValue)
-        
+       
+        if(newArray.length === 0){
+            console.log('bosdur');
+            todoInput.value = '';
+            newArray.push(todoInputValue)
+        }
+        else{
+            if(newArray.indexOf(todoInputValue) !==-1){
+                todoInput.value = '';
+                todoProject.alertEmptyTodo(message = 'This todo already exist...',className = "alert alert-warning");
+            }
+            else{
+                todoInput.value = '';
+                newArray.push(todoInputValue)
+            }
+        }
+
         window.localStorage.setItem('todos',JSON.stringify(newArray));/// storing array to local storage
 
         return newArray; 
@@ -74,7 +88,7 @@ var todoProject = {
         let valueFromAddTodo = this.addTodo();
         todoList.innerHTML = '';
         this.createList(valueFromAddTodo);
-        this.succesAlert();
+        this.alertEmptyTodo(message = "Successly added a todo...",className= "alert alert-success");
     },
     checkInputValue: function(){
         if(todoInput.value === ''){
@@ -84,13 +98,13 @@ var todoProject = {
             this.createElement();
         }
     },
-    alertEmptyTodo: function(){
+    alertEmptyTodo: function(message = "Please enter a todo ...",className= "alert alert-danger"){
         countForAlert ++;
         if(countForAlert === 1){
             let div = document.createElement('div');
-            div.className = 'alert alert-danger';
+            div.className = className;
             div.setAttribute('role','alert');
-            div.innerHTML = "Please enter a todo ...";
+            div.innerHTML = message;
             let br = document.createElement('br');
             firstCardBody.appendChild(br);
             firstCardBody.appendChild(div);
@@ -105,20 +119,6 @@ var todoProject = {
         }
     },
 
-    succesAlert: function(){
-        let div = document.createElement('div');
-        div.className = 'alert alert-success';
-        div.setAttribute('role','alert');
-        div.innerHTML = "Successly added a todo...";
-        let br = document.createElement('br');
-        firstCardBody.appendChild(br);
-        firstCardBody.appendChild(div);
-        setTimeout( function(){
-            div.remove();
-            br.remove();
-        },1500);
-    },
-
     displayIfLocalFull: function(){
         let localStorage = JSON.parse(window.localStorage.getItem('todos'));
         if(localStorage !== null){
@@ -128,6 +128,7 @@ var todoProject = {
 
     todoFilter: function(e){
         let filterValue = e.target.value.toLowerCase();
+        let valueFilter = document.querySelector('#filter');
         let listItems = document.querySelectorAll('.list-group-item');
         listItems.forEach(function(items){
             let text = items.textContent.toLowerCase();
@@ -158,6 +159,14 @@ var todoProject = {
             index = -1;
         }
         body.style.backgroundColor = color[indexColors()];
+    },
+
+    checkIfSameTodo: function(){
+        let localStorage = JSON.parse(window.localStorage.getItem('todos'));
+        let value = todoInput.value;        
+        console.log(localStorage);
+        console.log(value);
+
     }
 };
 
@@ -168,12 +177,16 @@ $(document).ready(function(){
 });
 
 $('#add-todo').on('click', function(e){
+    // todoProject.checkIfSameTodo();
+
     todoProject.checkInputValue();
     e.preventDefault();
 })
 
 SecondCardBody.addEventListener('click', function(e){
+    let valueFilter = document.querySelector('#filter').value;
     todoProject.removeTodo(e);
+    console.log(valueFilter);
 });
 
 SecondCardBody.addEventListener("keyup", function(e){
@@ -192,3 +205,12 @@ clearButton.addEventListener('click', function(){
 $('#reload').on('click', function(){
     location.reload(true);
 });
+
+
+// let list = [];
+// if(list.length === 0){
+//     console.log('bosdur')
+// }
+// else{
+//     console.log('doludur')
+// }
