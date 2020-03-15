@@ -58,7 +58,7 @@ var todoProject = {
         else{
             if(newArray.indexOf(todoInputValue) !==-1){
                 todoInput.value = '';
-                todoProject.alertEmptyTodo(message = 'This todo already exist...',className = "alert alert-warning");
+                todoProject.alertEmptyTodo(message = 'This todo already exist...',className = "alert alert-light");
             }
             else{
                 todoInput.value = '';
@@ -177,8 +177,6 @@ $(document).ready(function(){
 });
 
 $('#add-todo').on('click', function(e){
-    // todoProject.checkIfSameTodo();
-
     todoProject.checkInputValue();
     e.preventDefault();
 })
@@ -205,12 +203,3 @@ clearButton.addEventListener('click', function(){
 $('#reload').on('click', function(){
     location.reload(true);
 });
-
-
-// let list = [];
-// if(list.length === 0){
-//     console.log('bosdur')
-// }
-// else{
-//     console.log('doludur')
-// }
