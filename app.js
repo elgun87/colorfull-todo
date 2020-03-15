@@ -58,7 +58,7 @@ var todoProject = {
         else{
             if(newArray.indexOf(todoInputValue) !==-1){
                 todoInput.value = '';
-                todoProject.alertEmptyTodo(message = 'This todo already exist...',className = "alert alert-light");
+                todoProject.alertEmptyTodo(message = 'This todo already exist...',className= "alert alert-primary");
             }
             else{
                 todoInput.value = '';
