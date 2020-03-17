@@ -196,8 +196,19 @@ $('#change-color').on('click', function(){
 });
 
 clearButton.addEventListener('click', function(){
-    window.localStorage.clear();
-    location.reload(true);
+    let localStorage = JSON.parse(window.localStorage.getItem('todos'));
+    if(localStorage !== null){
+        let check =  confirm('Are you sure to delete all todos?');
+        if(check){
+            window.localStorage.clear();
+            location.reload(true);
+        }else{
+            location.reload(true);
+            return false;
+        }
+    }else{
+        todoProject.alertEmptyTodo(message="Todo list is already empty")
+    }
 });
 
 $('#reload').on('click', function(){
